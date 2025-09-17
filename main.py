@@ -11,13 +11,27 @@ from telegram.ext import (
     filters,
 )
 from dotenv import load_dotenv
-import os
-from telegram.ext import Application
 
-load_dotenv()  # loads variables from .env
+# Load .env for local testing (optional)
+load_dotenv()
+
 BOT_TOKEN = os.environ["BOT_TOKEN"]
+WEBHOOK_URL = os.environ.get("WEBHOOK_URL")  # Railway project domain
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Hello! Bot is running via webhook.")
 
 application = Application.builder().token(BOT_TOKEN).build()
+application.add_handler(CommandHandler("start", start))
+
+if name == "main":
+    # Railway provides a PORT variable for web servers
+    port = int(os.environ.get("PORT", 8443))
+    application.run_webhook(
+        listen="0.0.0.0",
+        port=port,
+        webhook_url=WEBHOOK_URL  # Must be your Railway project URL
+    )
 
 message_count = {}  # Tracks messages per chat
 
