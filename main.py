@@ -10,6 +10,14 @@ from telegram.ext import (
     InlineQueryHandler,
     filters,
 )
+from dotenv import load_dotenv
+import os
+from telegram.ext import Application
+
+load_dotenv()  # loads variables from .env
+BOT_TOKEN = os.environ["BOT_TOKEN"]
+
+application = Application.builder().token(BOT_TOKEN).build()
 
 message_count = {}  # Tracks messages per chat
 
