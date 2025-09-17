@@ -1,47 +1,24 @@
-import random
-import re
 import os
-from telegram import Update, BotCommand, InlineQueryResultPhoto
-from telegram.ext import (
-    Application,
-    CommandHandler,
-    ContextTypes,        # <-- use this instead of CallbackContext
-    MessageHandler,
-    InlineQueryHandler,
-    filters,
-)
+from dotenv import load_dotenv
 from telegram import Update
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Bot is running!")
-
-app = Application.builder().token("BOT_TOKEN").build()
-app.add_handler(CommandHandler("start", start))
-
-app.run_polling()
-from dotenv import load_dotenv
-# Load .env for local testing (optional)
+# Load .env for local testing
 load_dotenv()
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
-WEBHOOK_URL = os.environ.get("WEBHOOK_URL")  # Railway project domain
-
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("Hello! Bot is running via webhook.")
+WEBHOOK_URL = os.environ.get("WEBHOOK_URL")  # Your Railway URL
 
 application = Application.builder().token(BOT_TOKEN).build()
 application.add_handler(CommandHandler("start", start))
 
-if __name__ == "__main__":
-    # Railway provides a PORT variable for web servers
+if name == "main":
     port = int(os.environ.get("PORT", 8443))
     application.run_webhook(
         listen="0.0.0.0",
         port=port,
-        webhook_url=WEBHOOK_URL  # Must be your Railway project URL
+        webhook_url=WEBHOOK_URL
     )
-
 message_count = {}  # Tracks messages per chat
 
 # Extract owner ID from environment variable (handle extra text)
