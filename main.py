@@ -23,7 +23,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 application = Application.builder().token(BOT_TOKEN).build()
 application.add_handler(CommandHandler("start", start))
 
-if name == "main":
+if __name__ == "__main__":
     # Railway provides a PORT variable for web servers
     port = int(os.environ.get("PORT", 8443))
     application.run_webhook(
