@@ -8,7 +8,18 @@ load_dotenv()
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")  # Your Railway URL
-
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message:
+        await update.message.reply_text(
+            "✨ Welcome to the waifu collector Bot!\n\n"
+            "Commands:\n"
+            "/summon - Summon a random character\n"
+            "/marry - Marry your last summoned character\n"
+            "/collection - View your collection\n"
+            "/fav - View your favorite character\n"
+            "/setfav - Set your last summoned character as favorite"
+        )
+        
 application = Application.builder().token(BOT_TOKEN).build()
 application.add_handler(CommandHandler("start", start))
 
@@ -93,18 +104,6 @@ user_collections = {}
 favorites = {}
 
 # --- Bot Functions ---
-async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.message:
-        await update.message.reply_text(
-            "✨ Welcome to the waifu collector Bot!\n\n"
-            "Commands:\n"
-            "/summon - Summon a random character\n"
-            "/marry - Marry your last summoned character\n"
-            "/collection - View your collection\n"
-            "/fav - View your favorite character\n"
-            "/setfav - Set your last summoned character as favorite"
-        )
-
 def choose_rarity():
     return random.choices(
         population=list(rarities.keys()),
