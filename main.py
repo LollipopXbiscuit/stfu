@@ -5,13 +5,12 @@ from telegram import Update, BotCommand, InlineQueryResultPhoto
 from telegram.ext import (
     Application,
     CommandHandler,
-    CallbackContext,
+    ContextTypes,        # <-- use this instead of CallbackContext
     MessageHandler,
     InlineQueryHandler,
     filters,
 )
 from dotenv import load_dotenv
-
 # Load .env for local testing (optional)
 load_dotenv()
 
@@ -107,7 +106,7 @@ user_collections = {}
 favorites = {}
 
 # --- Bot Functions ---
-async def start(update: Update, context: CallbackContext):
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message:
         await update.message.reply_text(
             "✨ Welcome to the waifu collector Bot!\n\n"
@@ -126,7 +125,7 @@ def choose_rarity():
         k=1
     )[0]
 
-async def summon(update: Update, context: CallbackContext):
+async def summon(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.effective_user or not update.message:
         return
 
@@ -157,7 +156,7 @@ async def summon(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text("⚠️ No characters found for this rarity yet.")
 
-async def marry(update: Update, context: CallbackContext):
+async def marry(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.effective_user or not update.message:
         return
 
@@ -177,7 +176,7 @@ async def marry(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text("❌ No summon available right now.")
 
-async def collection(update: Update, context: CallbackContext):
+async def collection(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.effective_user or not update.message:
         return
 
@@ -204,14 +203,14 @@ async def collection(update: Update, context: CallbackContext):
     collection_text += f"📊 Total: {len(user_collections[user_id])} characters"
     await update.message.reply_text(collection_text)
 
-async def handle_message(update: Update, context: CallbackContext):
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.effective_chat.id
     message_count[chat_id] = message_count.get(chat_id, 0) + 1
     if message_count[chat_id] >= 100:
         message_count[chat_id] = 0
         await summon(update, context)
 
-async def fav(update: Update, context: CallbackContext):
+async def fav(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.effective_user or not update.message:
         return
 
@@ -223,7 +222,7 @@ async def fav(update: Update, context: CallbackContext):
     else:
         await update.message.reply_text("You don't have a favorite yet. Use /setfav first!")
 
-async def inline_query(update: Update, context: CallbackContext):
+async def inline_query(update: Update, context: ContextTypes.DEFAULT_TYPE):
     query = update.inline_query.query.strip()
     offset = int(update.inline_query.offset or 0)
     page_size = 50
@@ -257,7 +256,7 @@ async def inline_query(update: Update, context: CallbackContext):
     next_offset = str(offset + page_size) if len(all_characters) > offset + page_size else ""
     await update.inline_query.answer(results, cache_time=1, next_offset=next_offset)
 
-async def setfav(update: Update, context: CallbackContext):
+async def setfav(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if not update.effective_user or not update.message:
         return
 
