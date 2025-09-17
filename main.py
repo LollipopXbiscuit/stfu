@@ -10,13 +10,16 @@ from telegram.ext import (
     InlineQueryHandler,
     filters,
 )
-import sys
-try:
-    import pkg_resources
-except ImportError:
-    import subprocess
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "setuptools"])
-    import pkg_resources
+from telegram import Update
+from telegram.ext import Application, CommandHandler, ContextTypes
+
+async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Bot is running!")
+
+app = Application.builder().token("BOT_TOKEN").build()
+app.add_handler(CommandHandler("start", start))
+
+app.run_polling()
 from dotenv import load_dotenv
 # Load .env for local testing (optional)
 load_dotenv()
