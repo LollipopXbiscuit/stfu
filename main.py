@@ -7,11 +7,23 @@ from telegram.ext import Application, CommandHandler, MessageHandler, InlineQuer
 load_dotenv()
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
-webhook_url = os.environ["WEBHOOK_URL"]  # Your Railway URL
+webhook_url = os.environ["WEBHOOK_URL"]  # Should be a string
 port = int(os.environ.get("PORT", 8443))
-
+#extract last part of URL for url_path
 url_path = webhook_url.rsplit("/", 1)
-[-1] #extract last part of URL for url_path
+[-1] 
+
+application = Application.builder().token(BOT_TOKEN).build()
+application.add_handler(CommandHandler("start", start))
+
+if __name__ == "__main__":
+    port = int(os.environ.get("PORT", 8443)),
+    application.run_webhook(
+        listen="0.0.0.0",
+        port=port,
+        url_path=url_path,
+        webhook_url=webhook-url
+    )
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message:
         await update.message.reply_text(
@@ -23,18 +35,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "/fav - View your favorite character\n"
             "/setfav - Set your last summoned character as favorite"
         )
-        
-application = Application.builder().token(BOT_TOKEN).build()
-application.add_handler(CommandHandler("start", start))
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8443))
-    application.run_webhook(
-        listen="0.0.0.0",
-        port=port,
-        url_path=url_path,
-        webhook_url=webhook_url
-    )
 message_count = {}  # Tracks messages per chat
 # Extract owner ID from environment variable (handle extra text)
 import re
