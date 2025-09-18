@@ -15,9 +15,6 @@ from telegram.ext import (
 load_dotenv()
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
-webhook_url = os.environ["WEBHOOK_URL"]
-port = int(os.environ.get("PORT", 8443))
-url_path = webhook_url.rsplit("/", 1)[-1]
 
 # Track messages per chat
 message_count = {}
@@ -27,7 +24,7 @@ owner_id_str = os.environ.get("OWNER_ID", "0")
 owner_id_match = re.search(r'\d+', owner_id_str)
 OWNER_ID = int(owner_id_match.group()) if owner_id_match else 0
 
-# Handlers
+# ---------------- Handlers ----------------
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message:
         await update.message.reply_text(
@@ -40,17 +37,9 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
             "/setfav - Set your last summoned character as favorite"
         )
 
-# Build application
-application = Application.builder().token(BOT_TOKEN).build()
-application.add_handler(CommandHandler("start", start))
-
-if __name__ == "__main__":
-    application.run_webhook(
-        listen="0.0.0.0",
-        port=port,
-        url_path=url_path,
-        webhook_url=webhook_url
-)
+async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message:
+        await update.message.reply_text(f"You said: {update.message.text}")
 # --- Global Variables ---
 rarities = {
     "Common": 0.8,
