@@ -8,6 +8,10 @@ load_dotenv()
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
 WEBHOOK_URL = os.environ.get("WEBHOOK_URL")  # Your Railway URL
+port = int(os.environ.get("PORT", 8443))
+
+url_path = webhook_url.rsplit("/", 1)
+[-1] #extract last part of URL for url_path
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.message:
         await update.message.reply_text(
