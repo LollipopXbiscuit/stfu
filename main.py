@@ -44,7 +44,7 @@ async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
 application = Application.builder().token(BOT_TOKEN).build()
 application.add_handler(CommandHandler("start", start))
 
-if name == "main":
+if __name__ == "__main__":
     application.run_webhook(
         listen="0.0.0.0",
         port=port,
