@@ -33,7 +33,7 @@ if __name__ == "__main__":
         listen="0.0.0.0",
         port=port,
         url_path=url_path,
-        webhook_url=WEBHOOK_URL
+        webhook_url=webhook_url
     )
 message_count = {}  # Tracks messages per chat
 # Extract owner ID from environment variable (handle extra text)
