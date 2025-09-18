@@ -31,8 +31,8 @@ if __name__ == "__main__":
         webhook_url=WEBHOOK_URL
     )
 message_count = {}  # Tracks messages per chat
-
 # Extract owner ID from environment variable (handle extra text)
+import re
 owner_id_str = os.environ.get("OWNER_ID", "0")
 owner_id_match = re.search(r'\d+', owner_id_str)
 OWNER_ID = int(owner_id_match.group()) if owner_id_match else 0
