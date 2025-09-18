@@ -47,7 +47,10 @@ application.add_handler(CommandHandler("start", start))
 if name == "main":
     application.run_webhook(
         listen="0.0.0.0",
-
+        port=port
+        url_path=url_path
+        webhook_url=webhook_url
+)
 # --- Global Variables ---
 rarities = {
     "Common": 0.8,
