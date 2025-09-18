@@ -7,7 +7,7 @@ from telegram.ext import Application, CommandHandler, MessageHandler, InlineQuer
 load_dotenv()
 
 BOT_TOKEN = os.environ["BOT_TOKEN"]
-webhook_url = os.environ.get("WEBHOOK_URL")  # Your Railway URL
+webhook_url = os.environ["WEBHOOK_URL"]  # Your Railway URL
 port = int(os.environ.get("PORT", 8443))
 
 url_path = webhook_url.rsplit("/", 1)
