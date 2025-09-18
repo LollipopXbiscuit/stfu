@@ -28,6 +28,7 @@ if __name__ == "__main__":
     application.run_webhook(
         listen="0.0.0.0",
         port=port,
+        url_path=url_path,
         webhook_url=WEBHOOK_URL
     )
 message_count = {}  # Tracks messages per chat
